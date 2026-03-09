@@ -1,0 +1,175 @@
+{
+  "categories": [
+    { "id": 1, "name": "Starters", "description": "Appetizers and small bites to begin your meal", "icon": "restaurant_menu", "imageUrl": "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400" },
+    { "id": 2, "name": "Main Course", "description": "Hearty main dishes and entrees", "icon": "dinner_dining", "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400" },
+    { "id": 3, "name": "Pizza", "description": "Stone-baked artisan pizzas", "icon": "local_pizza", "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
+    { "id": 4, "name": "Burgers", "description": "Premium gourmet burgers", "icon": "lunch_dining", "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" },
+    { "id": 5, "name": "Desserts", "description": "Sweet treats and indulgent desserts", "icon": "cake", "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400" },
+    { "id": 6, "name": "Beverages", "description": "Refreshing drinks and cocktails", "icon": "local_bar", "imageUrl": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400" }
+  ],
+  "menuItems": [
+    {
+      "id": 1, "name": "Bruschetta al Pomodoro", "description": "Toasted sourdough bread topped with fresh tomatoes, garlic, basil, and extra virgin olive oil drizzle.",
+      "price": 8.99, "categoryId": 1, "categoryName": "Starters",
+      "imageUrl": "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=600",
+      "ingredients": ["Sourdough bread", "Roma tomatoes", "Garlic", "Fresh basil", "Extra virgin olive oil", "Sea salt", "Black pepper"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 10, "calories": 210, "rating": 4.7, "reviewCount": 142,
+      "tags": ["Italian", "Vegetarian", "Light"], "isVegetarian": true, "isVegan": true, "isGlutenFree": false, "spiceLevel": "mild"
+    },
+    {
+      "id": 2, "name": "Crispy Calamari", "description": "Tender squid rings lightly breaded and fried to golden perfection, served with marinara sauce and lemon wedges.",
+      "price": 12.99, "categoryId": 1, "categoryName": "Starters",
+      "imageUrl": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600",
+      "ingredients": ["Fresh squid", "Seasoned breadcrumbs", "Lemon", "Marinara sauce", "Parsley", "Garlic aioli"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": true, "discountPercent": 15,
+      "preparationTime": 15, "calories": 380, "rating": 4.5, "reviewCount": 98,
+      "tags": ["Seafood", "Fried", "Popular"], "isVegetarian": false, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 3, "name": "Spinach & Artichoke Dip", "description": "Creamy blend of spinach, artichoke hearts, and cheese served warm with tortilla chips and crostini.",
+      "price": 10.99, "categoryId": 1, "categoryName": "Starters",
+      "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600",
+      "ingredients": ["Spinach", "Artichoke hearts", "Cream cheese", "Parmesan", "Mozzarella", "Garlic", "Tortilla chips"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": false,
+      "preparationTime": 12, "calories": 450, "rating": 4.3, "reviewCount": 75,
+      "tags": ["Vegetarian", "Creamy", "Shareable"], "isVegetarian": true, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 4, "name": "Grilled Salmon Fillet", "description": "Atlantic salmon fillet grilled to perfection, served with herb butter, roasted vegetables, and lemon-dill sauce.",
+      "price": 26.99, "categoryId": 2, "categoryName": "Main Course",
+      "imageUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600",
+      "ingredients": ["Atlantic salmon", "Herb butter", "Seasonal vegetables", "Lemon", "Dill", "Capers", "Baby potatoes"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 25, "calories": 520, "rating": 4.8, "reviewCount": 234,
+      "tags": ["Seafood", "Healthy", "Gluten-Free"], "isVegetarian": false, "isVegan": false, "isGlutenFree": true
+    },
+    {
+      "id": 5, "name": "Ribeye Steak", "description": "12oz prime USDA ribeye steak cooked to your preference, served with truffle mashed potatoes and grilled asparagus.",
+      "price": 42.99, "categoryId": 2, "categoryName": "Main Course",
+      "imageUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600",
+      "ingredients": ["USDA Prime ribeye", "Truffle butter", "Mashed potatoes", "Asparagus", "Red wine reduction", "Rosemary"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 30, "calories": 890, "rating": 4.9, "reviewCount": 312,
+      "tags": ["Premium", "Steak", "Chef's Special"], "isVegetarian": false, "isVegan": false, "isGlutenFree": true, "spiceLevel": "mild"
+    },
+    {
+      "id": 6, "name": "Vegetable Pad Thai", "description": "Classic Thai stir-fried rice noodles with tofu, bean sprouts, scallions, and crushed peanuts in tamarind sauce.",
+      "price": 16.99, "categoryId": 2, "categoryName": "Main Course",
+      "imageUrl": "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=600",
+      "ingredients": ["Rice noodles", "Tofu", "Bean sprouts", "Scallions", "Peanuts", "Tamarind paste", "Lime", "Chili flakes"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": true, "discountPercent": 10,
+      "preparationTime": 20, "calories": 420, "rating": 4.4, "reviewCount": 167,
+      "tags": ["Thai", "Vegan", "Noodles"], "isVegetarian": true, "isVegan": true, "isGlutenFree": true, "spiceLevel": "medium"
+    },
+    {
+      "id": 7, "name": "Margherita Pizza", "description": "Classic Neapolitan pizza with San Marzano tomato sauce, fresh buffalo mozzarella, and fresh basil on a hand-tossed crust.",
+      "price": 18.99, "categoryId": 3, "categoryName": "Pizza",
+      "imageUrl": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600",
+      "ingredients": ["Pizza dough", "San Marzano tomatoes", "Buffalo mozzarella", "Fresh basil", "Extra virgin olive oil", "Sea salt"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 20, "calories": 680, "rating": 4.6, "reviewCount": 289,
+      "tags": ["Italian", "Classic", "Vegetarian"], "isVegetarian": true, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 8, "name": "BBQ Chicken Pizza", "description": "Smoky BBQ sauce base with grilled chicken, caramelized onions, bell peppers, and three-cheese blend.",
+      "price": 21.99, "categoryId": 3, "categoryName": "Pizza",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600",
+      "ingredients": ["Pizza dough", "BBQ sauce", "Grilled chicken", "Caramelized onions", "Bell peppers", "Mozzarella", "Cheddar", "Red onion"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": false,
+      "preparationTime": 22, "calories": 760, "rating": 4.5, "reviewCount": 198,
+      "tags": ["BBQ", "Chicken", "Crowd Pleaser"], "isVegetarian": false, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 9, "name": "Truffle Mushroom Pizza", "description": "White truffle oil base with wild mushroom medley, fontina cheese, caramelized onions, and fresh thyme.",
+      "price": 24.99, "categoryId": 3, "categoryName": "Pizza",
+      "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600",
+      "ingredients": ["Pizza dough", "Truffle oil", "Mixed mushrooms", "Fontina cheese", "Caramelized onions", "Thyme", "Arugula"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 22, "calories": 720, "rating": 4.8, "reviewCount": 145,
+      "tags": ["Gourmet", "Truffle", "Vegetarian"], "isVegetarian": true, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 10, "name": "Classic Smash Burger", "description": "Double smash-style beef patty with American cheese, special sauce, pickles, onions, and lettuce on a brioche bun.",
+      "price": 14.99, "categoryId": 4, "categoryName": "Burgers",
+      "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600",
+      "ingredients": ["Ground beef (80/20)", "American cheese", "Special sauce", "Pickles", "Onions", "Lettuce", "Brioche bun"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 15, "calories": 720, "rating": 4.7, "reviewCount": 421,
+      "tags": ["Classic", "Beef", "Best Seller"], "isVegetarian": false, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 11, "name": "Mushroom Swiss Burger", "description": "Juicy beef patty topped with sautéed mushrooms, Swiss cheese, garlic aioli, and crispy onion straws.",
+      "price": 16.99, "categoryId": 4, "categoryName": "Burgers",
+      "imageUrl": "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=600",
+      "ingredients": ["Ground beef", "Swiss cheese", "Sautéed mushrooms", "Garlic aioli", "Onion straws", "Arugula", "Brioche bun"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": true, "discountPercent": 20,
+      "preparationTime": 18, "calories": 790, "rating": 4.6, "reviewCount": 187,
+      "tags": ["Mushroom", "Beef", "Gourmet"], "isVegetarian": false, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 12, "name": "Spicy Jalapeño Burger", "description": "Fiery beef patty with pepper jack cheese, fresh jalapeños, chipotle mayo, and crunchy tortilla strips.",
+      "price": 15.99, "categoryId": 4, "categoryName": "Burgers",
+      "imageUrl": "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600",
+      "ingredients": ["Ground beef", "Pepper jack cheese", "Fresh jalapeños", "Chipotle mayo", "Tortilla strips", "Red onion", "Brioche bun"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": false,
+      "preparationTime": 16, "calories": 810, "rating": 4.4, "reviewCount": 203,
+      "tags": ["Spicy", "Beef", "Hot"], "isVegetarian": false, "isVegan": false, "isGlutenFree": false, "spiceLevel": "hot"
+    },
+    {
+      "id": 13, "name": "Chocolate Lava Cake", "description": "Warm dark chocolate cake with a molten center, served with vanilla bean ice cream and raspberry coulis.",
+      "price": 9.99, "categoryId": 5, "categoryName": "Desserts",
+      "imageUrl": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600",
+      "ingredients": ["Dark chocolate", "Butter", "Eggs", "Sugar", "Flour", "Vanilla ice cream", "Raspberry coulis"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 15, "calories": 560, "rating": 4.9, "reviewCount": 376,
+      "tags": ["Chocolate", "Warm", "Indulgent"], "isVegetarian": true, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 14, "name": "Tiramisu", "description": "Classic Italian dessert with layers of espresso-soaked ladyfingers, mascarpone cream, and dusted cocoa.",
+      "price": 8.99, "categoryId": 5, "categoryName": "Desserts",
+      "imageUrl": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600",
+      "ingredients": ["Ladyfingers", "Espresso", "Mascarpone", "Eggs", "Sugar", "Cocoa powder", "Dark rum"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": false,
+      "preparationTime": 0, "calories": 480, "rating": 4.7, "reviewCount": 256,
+      "tags": ["Italian", "Coffee", "Classic"], "isVegetarian": true, "isVegan": false, "isGlutenFree": false
+    },
+    {
+      "id": 15, "name": "Mango Sorbet", "description": "Refreshing house-made mango sorbet with fresh mint and tropical fruit garnish. Vegan and gluten-free.",
+      "price": 7.99, "categoryId": 5, "categoryName": "Desserts",
+      "imageUrl": "https://images.unsplash.com/photo-1488900128323-21503983a07e?w=600",
+      "ingredients": ["Fresh mango", "Sugar", "Lime juice", "Mint", "Tropical fruits"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": true, "discountPercent": 10,
+      "preparationTime": 0, "calories": 180, "rating": 4.5, "reviewCount": 112,
+      "tags": ["Vegan", "Light", "Refreshing"], "isVegetarian": true, "isVegan": true, "isGlutenFree": true
+    },
+    {
+      "id": 16, "name": "Signature Mojito", "description": "Classic mojito with fresh mint, premium white rum, lime juice, and a splash of soda. A refreshing summer favourite.",
+      "price": 11.99, "categoryId": 6, "categoryName": "Beverages",
+      "imageUrl": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600",
+      "ingredients": ["White rum", "Fresh mint", "Lime juice", "Simple syrup", "Club soda", "Ice"],
+      "isAvailable": true, "isRecommended": true, "isDiscounted": false,
+      "preparationTime": 5, "calories": 190, "rating": 4.6, "reviewCount": 198,
+      "tags": ["Cocktail", "Refreshing", "Summer"], "isVegetarian": true, "isVegan": true, "isGlutenFree": true
+    },
+    {
+      "id": 17, "name": "Mango Lassi", "description": "Traditional Indian yogurt-based drink blended with fresh Alphonso mango, cardamom, and a touch of saffron.",
+      "price": 6.99, "categoryId": 6, "categoryName": "Beverages",
+      "imageUrl": "https://images.unsplash.com/photo-1541696490-8744a5dc0228?w=600",
+      "ingredients": ["Yogurt", "Alphonso mango", "Cardamom", "Saffron", "Sugar", "Rose water"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": false,
+      "preparationTime": 5, "calories": 240, "rating": 4.7, "reviewCount": 145,
+      "tags": ["Indian", "Yogurt", "Non-Alcoholic"], "isVegetarian": true, "isVegan": false, "isGlutenFree": true
+    },
+    {
+      "id": 18, "name": "Cold Brew Coffee", "description": "Smooth 24-hour cold brew concentrate served over ice with choice of oat milk or black. Naturally caffeinated.",
+      "price": 5.99, "categoryId": 6, "categoryName": "Beverages",
+      "imageUrl": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600",
+      "ingredients": ["Cold brew concentrate", "Ice", "Oat milk (optional)", "Simple syrup (optional)"],
+      "isAvailable": true, "isRecommended": false, "isDiscounted": false,
+      "preparationTime": 3, "calories": 15, "rating": 4.5, "reviewCount": 89,
+      "tags": ["Coffee", "Cold", "Caffeine"], "isVegetarian": true, "isVegan": true, "isGlutenFree": true
+    }
+  ],
+  "orders": []
+}

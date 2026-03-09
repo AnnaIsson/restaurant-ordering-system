@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saveur — Fine Dining Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --parchment: #ede5d4;
+    --gold: #c9a84c;
+    --gold-light: #e8c97e;
+    --gold-dark: #9a7635;
+    --charcoal: #1a1714;
+    --charcoal-mid: #2d2921;
+    --charcoal-light: #4a4540;
+    --warm-white: #faf7f2;
+    --red-accent: #8b2635;
+    --green-accent: #2d5a3d;
+    --text-muted: #8a7f70;
+    --border: rgba(201,168,76,0.25);
+    --shadow: 0 8px 40px rgba(26,23,20,0.15);
+    --shadow-hover: 0 20px 60px rgba(26,23,20,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === NAVBAR === */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--charcoal);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 70px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(10px);
+  }
+
+  .navbar-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .navbar-brand span {
+    color: var(--cream);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .nav-links {
+    display: flex; gap: 32px; align-items: center;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--parchment);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    opacity: 1;
+    color: var(--gold);
+  }
+
+  .nav-cart-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--gold);
+    color: var(--charcoal);
+    border: none;
+    padding: 10px 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .nav-cart-btn:hover { background: var(--gold-light); }
+
+  .cart-badge {
+    position: absolute;
+    top: -8px; right: -8px;
+    background: var(--red-accent);
+    color: white;
+    border-radius: 50%;
+    width: 20px; height: 20px;
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    animation: pop 0.3s ease;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  /* === VIEWS === */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* === HERO === */
+  .hero {
+    height: 100vh;
+    background: linear-gradient(160deg, var(--charcoal) 0%, var(--charcoal-mid) 50%, #2a1f10 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding-top: 70px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 20% 80%, rgba(139,38,53,0.06) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    text-align: center; z-index: 1; padding: 40px;
+    animation: fadeUp 1s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.9;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 8vw, 100px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .hero-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 28px);
+    color: var(--parchment);
+    font-style: italic;
+    font-weight: 300;
+    opacity: 0.7;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--charcoal);
+    border: none;
+    padding: 16px 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(245,240,232,0.3);
+    padding: 16px 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .hero-ornament {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 40px auto 0;
+    position: relative;
+  }
+
+  .hero-ornament::before, .hero-ornament::after {
+    content: '◆';
+    position: absolute;
+    top: -6px;
+    color: var(--gold);
+    font-size: 8px;
+  }
+
+  .hero-ornament::before { left: -14px; }
+  .hero-ornament::after { right: -14px; }
+
+  /* === MENU PAGE === */
+  .page-header {
+    padding: 120px 40px 60px;
+    background: var(--charcoal);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .page-header-label {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+  }
+
+  .page-header h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* === FILTER BAR === */
+  .filter-section {
+    background: var(--charcoal-mid);
+    padding: 24px 40px;
+    position: sticky; top: 70px; z-index: 100;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter-row {
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    max-width: 1400px; margin: 0 auto;
+  }
+
+  .filter-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--parchment);
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .filter-chip:hover, .filter-chip.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--charcoal);
+  }
+
+  .filter-chip .material-icons-round { font-size: 14px; }
+
+  .filter-search {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    flex: 0 0 240px;
+  }
+
+  .filter-search input {
+    background: none; border: none; outline: none;
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    width: 100%;
+  }
+
+  .filter-search input::placeholder { color: var(--text-muted); }
+  .filter-search .material-icons-round { color: var(--text-muted); font-size: 18px; }
+
+  /* === MENU GRID === */
+  .menu-section {
+    padding: 60px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .section-divider {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .section-divider-icon {
+    color: var(--gold);
+    font-size: 14px;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  /* === MENU CARD === */
+  .menu-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    animation: cardFadeIn 0.6s ease both;
+  }
+
+  @keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .menu-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-6px);
+    border-color: var(--gold);
+  }
+
+  .menu-card-img {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .menu-card-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .menu-card:hover .menu-card-img img { transform: scale(1.08); }
+
+  .badge-group {
+    position: absolute; top: 12px; left: 12px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .badge {
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .badge-recommended {
+    background: var(--gold);
+    color: var(--charcoal);
+  }
+
+  .badge-discount {
+    background: var(--red-accent);
+    color: white;
+  }
+
+  .badge-veg {
+    background: var(--green-accent);
+    color: white;
+  }
+
+  .badge-spicy {
+    background: #c0392b;
+    color: white;
+  }
+
+  .card-rating {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(26,23,20,0.85);
+    color: var(--gold);
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 4px;
+    backdrop-filter: blur(4px);
+  }
+
+  .card-rating .material-icons-round { font-size: 12px; }
+
+  .menu-card-body {
+    padding: 24px;
+  }
+
+  .card-category {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-price {
+    display: flex; flex-direction: column;
+  }
+
+  .price-current {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+
+  .price-original {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .card-meta {
+    display: flex; gap: 12px;
+    font-size: 11px;
+    color: var(--text-muted);
+    align-items: center;
+  }
+
+  .card-meta span { display: flex; align-items: center; gap: 3px; }
+  .card-meta .material-icons-round { font-size: 13px; }
+
+  .btn-add-cart {
+    background: var(--charcoal);
+    color: var(--gold);
+    border: 1px solid var(--charcoal);
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .btn-add-cart:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--charcoal);
+  }
+
+  .btn-add-cart .material-icons-round { font-size: 16px; }
+
+  /* === MENU DETAIL === */
+  .detail-view {
+    padding-top: 70px;
+    min-height: 100vh;
+    background: var(--cream);
+  }
+
+  .detail-hero {
+    height: 450px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .detail-hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  .detail-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(26,23,20,0.2) 0%, rgba(26,23,20,0.85) 100%);
+    display: flex; align-items: flex-end;
+    padding: 48px;
+  }
+
+  .detail-hero-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .detail-hero-content .detail-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .detail-back-btn {
+    position: absolute; top: 24px; left: 24px;
+    background: rgba(26,23,20,0.7);
+    color: var(--cream);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.3s;
+    backdrop-filter: blur(4px);
+  }
+
+  .detail-back-btn:hover { background: rgba(201,168,76,0.3); border-color: var(--gold); color: var(--gold); }
+
+  .detail-body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 60px;
+  }
+
+  .detail-tags {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+
+  .detail-description {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    line-height: 1.7;
+    color: var(--charcoal-light);
+    font-style: italic;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .detail-section-title {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .ingredients-list {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 40px;
+  }
+
+  .ingredient-tag {
+    padding: 6px 14px;
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--charcoal-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+  }
+
+  .detail-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* === ORDER PANEL === */
+  .order-panel {
+    background: var(--charcoal);
+    padding: 32px;
+    border: 1px solid var(--border);
+    position: sticky; top: 100px;
+    height: fit-content;
+  }
+
+  .order-panel-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: var(--cream);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .qty-control {
+    display: flex; align-items: center; gap: 0;
+    border: 1px solid var(--border);
+    width: fit-content;
+    margin-bottom: 20px;
+  }
+
+  .qty-btn {
+    background: var(--charcoal-light);
+    color: var(--cream);
+    border: none;
+    width: 40px; height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .qty-btn:hover { background: var(--gold); color: var(--charcoal); }
+
+  .qty-display {
+    width: 48px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    background: var(--charcoal-mid);
+  }
+
+  .special-instructions {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    padding: 12px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+    margin-bottom: 20px;
+    min-height: 80px;
+  }
+
+  .special-instructions::placeholder { color: var(--text-muted); }
+
+  .add-to-cart-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--charcoal);
+    border: none;
+    padding: 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+
+  .add-to-cart-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(201,168,76,0.3);
+  }
+
+  /* === CART === */
+  .cart-page {
+    padding-top: 70px;
+    min-height: 100vh;
+    background: var(--cream);
+  }
+
+  .cart-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .cart-items-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .cart-count-badge {
+    background: var(--gold);
+    color: var(--charcoal);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+  }
+
+  .cart-item {
+    display: flex; gap: 20px; align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    animation: slideIn 0.4s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .cart-item-img {
+    width: 90px; height: 70px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .cart-item-info { flex: 1; }
+
+  .cart-item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .cart-item-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .cart-item-controls {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .mini-qty-btn {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    width: 28px; height: 28px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    color: var(--charcoal);
+  }
+
+  .mini-qty-btn:hover { background: var(--gold); border-color: var(--gold); }
+
+  .mini-qty {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .cart-item-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+
+  .remove-btn {
+    background: none; border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+    display: flex;
+  }
+
+  .remove-btn:hover { color: var(--red-accent); }
+  .remove-btn .material-icons-round { font-size: 18px; }
+
+  /* === ORDER SUMMARY === */
+  .order-summary {
+    background: var(--charcoal);
+    padding: 32px;
+    position: sticky; top: 100px;
+  }
+
+  .order-summary h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    color: var(--cream);
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-line {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--parchment);
+    opacity: 0.8;
+  }
+
+  .summary-line.total {
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    padding-top: 16px;
+    opacity: 1;
+  }
+
+  .summary-line.total span:first-child {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .summary-total-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .checkout-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--charcoal);
+    border: none;
+    padding: 18px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 24px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+
+  .checkout-btn:hover { background: var(--gold-light); }
+  .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .empty-cart {
+    text-align: center;
+    padding: 80px 20px;
+    grid-column: 1 / -1;
+  }
+
+  .empty-cart-icon {
+    font-size: 80px;
+    color: var(--text-muted);
+    display: block; margin-bottom: 24px;
+  }
+
+  .empty-cart h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+
+  .empty-cart p {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+
+  /* === CHECKOUT FORM === */
+  .checkout-page {
+    padding-top: 70px;
+    background: var(--cream);
+    min-height: 100vh;
+  }
+
+  .checkout-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .form-section {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    padding: 36px;
+    margin-bottom: 24px;
+  }
+
+  .form-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .form-section-title .step-num {
+    width: 28px; height: 28px;
+    background: var(--gold);
+    color: var(--charcoal);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-row.single { grid-template-columns: 1fr; }
+  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+  .form-group { display: flex; flex-direction: column; }
+
+  .form-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .form-input {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: var(--charcoal);
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .form-input:focus { border-color: var(--gold); }
+
+  .form-input.error { border-color: var(--red-accent); }
+
+  .form-error {
+    font-size: 11px;
+    color: var(--red-accent);
+    margin-top: 6px;
+    display: none;
+  }
+
+  .form-error.visible { display: block; }
+
+  .payment-options {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .payment-option {
+    border: 1px solid var(--border);
+    padding: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s;
+    background: var(--cream);
+    position: relative;
+  }
+
+  .payment-option:hover, .payment-option.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .payment-option.selected::after {
+    content: '✓';
+    position: absolute; top: 8px; right: 10px;
+    color: var(--gold);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .payment-option .material-icons-round { color: var(--gold); }
+
+  .place-order-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--charcoal);
+    border: none;
+    padding: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 8px;
+  }
+
+  .place-order-btn:hover {
+    background: var(--gold-light);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.35);
+  }
+
+  /* === ORDER CONFIRMATION === */
+  .confirmation-view {
+    padding-top: 70px;
+    min-height: 100vh;
+    background: var(--charcoal);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .confirmation-card {
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    padding: 60px 40px;
+    border: 1px solid var(--border);
+    background: var(--charcoal-mid);
+    animation: fadeUp 0.8s ease;
+  }
+
+  .confirmation-icon {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 32px;
+    animation: successPop 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+
+  @keyframes successPop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .confirmation-icon .material-icons-round {
+    color: var(--charcoal);
+    font-size: 40px;
+  }
+
+  .confirmation-card .order-id {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .confirmation-card h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+
+  .confirmation-card p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .confirmation-details {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  .conf-detail-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+    color: var(--parchment);
+    opacity: 0.8;
+  }
+
+  .conf-detail-row:last-child {
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 1px solid var(--border);
+    font-weight: 600;
+    opacity: 1;
+    font-size: 16px;
+  }
+
+  .conf-detail-row:last-child span:last-child {
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+  }
+
+  .conf-status-bar {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .conf-status-bar::before {
+    content: '';
+    position: absolute;
+    top: 12px; left: 12px; right: 12px;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+
+  .conf-status-bar::after {
+    content: '';
+    position: absolute;
+    top: 12px; left: 12px;
+    height: 2px;
+    width: 15%;
+    background: var(--gold);
+    z-index: 1;
+    transition: width 1s ease;
+  }
+
+  .status-step {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    z-index: 2; position: relative;
+  }
+
+  .status-dot {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--charcoal-light);
+    border: 2px solid var(--border);
+    transition: all 0.5s;
+  }
+
+  .status-dot.active { background: var(--gold); border-color: var(--gold); }
+
+  .status-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* === SNACKBAR === */
+  .snackbar {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    background: var(--charcoal);
+    color: var(--cream);
+    padding: 16px 24px;
+    border-left: 3px solid var(--gold);
+    box-shadow: var(--shadow);
+    font-size: 14px;
+    z-index: 9999;
+    display: flex; align-items: center; gap: 12px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 360px;
+  }
+
+  .snackbar.show { transform: translateY(0); opacity: 1; }
+  .snackbar .material-icons-round { color: var(--gold); }
+
+  /* === LOADING === */
+  .loading-spinner {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px;
+    gap: 20px;
+  }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 2px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 900px) {
+    .detail-body, .cart-layout, .checkout-layout {
+      grid-template-columns: 1fr;
+    }
+    .order-panel, .order-summary { position: static; }
+    .navbar { padding: 0 20px; }
+    .nav-links { display: none; }
+    .menu-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .filter-section { padding: 16px 20px; }
+    .filter-search { flex: 0 0 180px; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-row.triple { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 48px; }
+    .filter-search { display: none; }
+    .detail-hero-overlay { padding: 24px; }
+    .detail-hero { height: 320px; }
+    .cart-item { flex-wrap: wrap; }
+    .form-row.triple { grid-template-columns: 1fr; }
+    .page-header { padding: 100px 20px 40px; }
+    .menu-section { padding: 40px 20px; }
+    .cart-layout, .checkout-layout { padding: 40px 20px; }
+  }
+
+  .ornament { color: var(--gold); opacity: 0.3; font-size: 12px; }
+
+  /* no items state */
+  .no-items {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+
+  .no-items .material-icons-round {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    color: var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-brand" onclick="navigate('home')">Saveur<span> Bistro</span></div>
+  <ul class="nav-links">
+    <li><a onclick="navigate('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="navigate('menu')" id="nav-menu">Menu</a></li>
+    <li><a onclick="navigate('cart')" id="nav-cart">Cart</a></li>
+  </ul>
+  <button class="nav-cart-btn" onclick="navigate('cart')">
+    <span class="material-icons-round">shopping_bag</span>
+    View Cart
+    <span class="cart-badge" id="cart-badge" style="display:none">0</span>
+  </button>
+</nav>
+
+<!-- SNACKBAR -->
+<div class="snackbar" id="snackbar">
+  <span class="material-icons-round">check_circle</span>
+  <span id="snackbar-msg"></span>
+</div>
+
+<!-- ======== HOME VIEW ======== -->
+<div class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Est. 2018 · Fine Dining Experience</p>
+      <h1 class="hero-title"><em>Saveur</em><br>Bistro</h1>
+      <p class="hero-subtitle">Where every dish tells a story</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="navigate('menu')">Explore Our Menu</button>
+        <button class="btn-outline" onclick="navigate('cart')">View Cart</button>
+      </div>
+      <div class="hero-ornament"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== MENU VIEW ======== -->
+<div class="view" id="view-menu">
+  <div class="page-header">
+    <p class="page-header-label">Crafted with Passion</p>
+    <h1>Our <em>Menu</em></h1>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-row" id="category-filters">
+      <button class="filter-chip active" onclick="filterCategory(0, this)">
+        <span class="material-icons-round">restaurant_menu</span> All
+      </button>
+      <!-- Generated dynamically -->
+    </div>
+  </div>
+
+  <div class="menu-section">
+    <div id="menu-content">
+      <div class="loading-spinner"><div class="spinner"></div><span>Loading menu...</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== DETAIL VIEW ======== -->
+<div class="view" id="view-detail">
+  <div class="detail-view" id="detail-content"></div>
+</div>
+
+<!-- ======== CART VIEW ======== -->
+<div class="view" id="view-cart">
+  <div class="cart-page">
+    <div class="cart-layout" id="cart-content"></div>
+  </div>
+</div>
+
+<!-- ======== CHECKOUT VIEW ======== -->
+<div class="view" id="view-checkout">
+  <div class="checkout-page">
+    <div class="checkout-layout" id="checkout-content"></div>
+  </div>
+</div>
+
+<!-- ======== CONFIRMATION VIEW ======== -->
+<div class="view" id="view-confirmation">
+  <div class="confirmation-view" id="confirmation-content"></div>
+</div>
+
+<script>
+// =========== DATA ===========
+const menuData = {
+  categories: [
+    { id: 1, name: "Starters", icon: "appetizers" },
+    { id: 2, name: "Main Course", icon: "restaurant" },
+    { id: 3, name: "Desserts", icon: "cake" },
+    { id: 4, name: "Beverages", icon: "local_bar" },
+    { id: 5, name: "Specials", icon: "star" }
+  ],
+  menuItems: [
+    { id: 1, name: "Bruschetta al Pomodoro", description: "Toasted sourdough topped with fresh heirloom tomatoes, garlic, basil, and extra virgin olive oil.", price: 12.99, categoryId: 1, image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=600", ingredients: ["Sourdough bread", "Heirloom tomatoes", "Garlic", "Fresh basil", "Extra virgin olive oil", "Sea salt"], isRecommended: true, isDiscounted: false, discountPercent: 0, rating: 4.8, prepTime: 10, isVegetarian: true, isSpicy: false, calories: 220 },
+    { id: 2, name: "Crispy Calamari", description: "Lightly breaded and fried squid rings served with marinara sauce and lemon wedges.", price: 16.99, categoryId: 1, image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600", ingredients: ["Fresh squid", "Seasoned flour", "Marinara sauce", "Lemon", "Fresh parsley"], isRecommended: false, isDiscounted: true, discountPercent: 15, rating: 4.5, prepTime: 15, isVegetarian: false, isSpicy: false, calories: 380 },
+    { id: 3, name: "Wild Mushroom Soup", description: "Creamy blend of seasonal wild mushrooms with truffle oil and fresh herbs.", price: 14.99, categoryId: 1, image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600", ingredients: ["Wild mushrooms", "Heavy cream", "Truffle oil", "Thyme", "Shallots", "Vegetable broth"], isRecommended: true, isDiscounted: false, discountPercent: 0, rating: 4.7, prepTime: 20, isVegetarian: true, isSpicy: false, calories: 290 },
+    { id: 4, name: "Grilled Atlantic Salmon", description: "Pan-seared salmon fillet with lemon butter sauce, seasonal vegetables, and garlic mashed potatoes.", price: 32.99, categoryId: 2, image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600", ingredients: ["Atlantic salmon", "Butter", "Lemon", "Seasonal vegetables", "Yukon gold potatoes", "Dill"], isRecommended: true, isDiscounted: false, discountPercent: 0, rating: 4.9, prepTime: 25, isVegetarian: false, isSpicy: false, calories: 520 },
+    { id: 5, name: "Beef Tenderloin Medallions", description: "8oz grass-fed beef tenderloin with red wine reduction, truffle butter, and roasted fingerling potatoes.", price: 48.99, categoryId: 2, image: "https://images.unsplash.com/photo-1558030006-450675393462?w=600", ingredients: ["Grass-fed beef tenderloin", "Red wine", "Truffle butter", "Fingerling potatoes", "Rosemary", "Thyme"], isRecommended: true, isDiscounted: false, discountPercent: 0, rating: 4.9, prepTime: 30, isVegetarian: false, isSpicy: false, calories: 680 },
+    { id: 6, name: "Eggplant Parmigiana", description: "Layers of breaded eggplant, San Marzano tomato sauce, and melted mozzarella baked to perfection.", price: 24.99, categoryId: 2, image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600", ingredients: ["Eggplant", "San Marzano tomatoes", "Fresh mozzarella", "Parmesan", "Basil", "Breadcrumbs"], isRecommended: false, isDiscounted: true, discountPercent: 20, rating: 4.6, prepTime: 35, isVegetarian: true, isSpicy: false, calories: 445 },
+    { id: 7, name: "Spicy Thai Basil Chicken", description: "Wok-tossed chicken with Thai basil, chilies, and oyster sauce served over jasmine rice.", price: 26.99, categoryId: 2, image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600", ingredients: ["Chicken breast", "Thai basil", "Bird eye chilies", "Oyster sauce", "Jasmine rice", "Fish sauce"], isRecommended: false, isDiscounted: false, discountPercent: 0, rating: 4.7, prepTime: 20, isVegetarian: false, isSpicy: true, calories: 490 },
+    { id: 8, name: "Chocolate Lava Cake", description: "Warm dark chocolate cake with a molten center, served with vanilla bean ice cream.", price: 13.99, categoryId: 3, image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600", ingredients: ["Dark chocolate", "Butter", "Eggs", "Flour", "Sugar", "Vanilla bean ice cream"], isRecommended: true, isDiscounted: false, discountPercent: 0, rating: 4.9, prepTime: 15, isVegetarian: true, isSpicy: false, calories: 580 },
+    { id: 9, name: "Crème Brûlée", description: "Classic French vanilla custard with a caramelized sugar crust, topped with fresh berries.", price: 11.99, categoryId: 3, image: "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=600", ingredients: ["Heavy cream", "Egg yolks", "Vanilla bean", "Sugar", "Fresh berries"], isRecommended: false, isDiscounted: true, discountPercent: 10, rating: 4.7, prepTime: 10, isVegetarian: true, isSpicy: false, calories: 420 },
+    { id: 10, name: "Tiramisu", description: "Traditional Italian dessert with espresso-soaked ladyfingers and mascarpone cream.", price: 12.99, categoryId: 3, image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600", ingredients: ["Mascarpone", "Espresso", "Ladyfingers", "Egg yolks", "Sugar", "Cocoa powder"], isRecommended: false, isDiscounted: false, discountPercent: 0, rating: 4.8, prepTime: 5, isVegetarian: true, isSpicy: false, calories: 390 },
+    { id: 11, name: "Artisan Lemonade", description: "Freshly squeezed lemonade with herbs — choose from Classic, Mint, or Lavender.", price: 7.99, categoryId: 4, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600", ingredients: ["Fresh lemons", "Cane sugar", "Sparkling water", "Choice of herb"], isRecommended: false, isDiscounted: false, discountPercent: 0, rating: 4.5, prepTime: 5, isVegetarian: true, isSpicy: false, calories: 140 },
+    { id: 12, name: "Signature Espresso Martini", description: "Vodka, freshly brewed espresso, coffee liqueur, and vanilla syrup, shaken to perfection.", price: 16.99, categoryId: 4, image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600", ingredients: ["Vodka", "Espresso", "Kahlúa", "Vanilla syrup", "Coffee beans"], isRecommended: true, isDiscounted: false, discountPercent: 0, rating: 4.8, prepTime: 5, isVegetarian: true, isSpicy: false, calories: 180 },
+    { id: 13, name: "Chef's Tasting Menu", description: "A 5-course culinary journey curated daily by our Executive Chef featuring seasonal ingredients.", price: 95.00, categoryId: 5, image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600", ingredients: ["Market seasonal ingredients", "Chef's selection"], isRecommended: true, isDiscounted: false, discountPercent: 0, rating: 5.0, prepTime: 90, isVegetarian: false, isSpicy: false, calories: 1200 },
+    { id: 14, name: "Weekend Seafood Platter", description: "Fresh oysters, jumbo shrimp, crab claws, and lobster tail on a bed of crushed ice.", price: 78.99, categoryId: 5, image: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=600", ingredients: ["Fresh oysters", "Jumbo shrimp", "Crab claws", "Lobster tail", "Cocktail sauce", "Mignonette"], isRecommended: true, isDiscounted: true, discountPercent: 12, rating: 4.9, prepTime: 15, isVegetarian: false, isSpicy: false, calories: 650 }
+  ]
+};
+
+// =========== STATE (Angular Services equivalent) ===========
+// CartService
+const CartService = {
+  items: [], // Array of { menuItem, quantity, specialInstructions }
+
+  addItem(menuItem, quantity = 1, specialInstructions = '') {
+    const existing = this.items.find(i => i.menuItem.id === menuItem.id);
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      this.items.push({ menuItem, quantity, specialInstructions });
+    }
+    this._notifyChange();
+  },
+
+  removeItem(id) {
+    this.items = this.items.filter(i => i.menuItem.id !== id);
+    this._notifyChange();
+  },
+
+  updateQty(id, qty) {
+    const item = this.items.find(i => i.menuItem.id === id);
+    if (item) {
+      item.quantity = qty;
+      if (item.quantity <= 0) this.removeItem(id);
+    }
+    this._notifyChange();
+  },
+
+  getEffectivePrice(item) {
+    if (item.isDiscounted && item.discountPercent > 0) {
+      return item.price * (1 - item.discountPercent / 100);
+    }
+    return item.price;
+  },
+
+  getSubtotal() {
+    return this.items.reduce((sum, i) => sum + this.getEffectivePrice(i.menuItem) * i.quantity, 0);
+  },
+
+  getTax() { return this.getSubtotal() * 0.08; },
+  getDeliveryFee() { return this.items.length > 0 ? 5.99 : 0; },
+  getTotal() { return this.getSubtotal() + this.getTax() + this.getDeliveryFee(); },
+  getCount() { return this.items.reduce((sum, i) => sum + i.quantity, 0); },
+
+  clear() { this.items = []; this._notifyChange(); },
+
+  _notifyChange() {
+    const count = this.getCount();
+    const badge = document.getElementById('cart-badge');
+    if (count > 0) {
+      badge.style.display = 'flex';
+      badge.textContent = count;
+    } else {
+      badge.style.display = 'none';
+    }
+    // Re-render cart if visible
+    if (currentView === 'cart') renderCart();
+  }
+};
+
+// MenuService
+const MenuService = {
+  getAll() { return menuData.menuItems; },
+  getById(id) { return menuData.menuItems.find(i => i.id === id); },
+  getCategories() { return menuData.categories; },
+  getByCategory(catId) {
+    if (!catId) return menuData.menuItems;
+    return menuData.menuItems.filter(i => i.categoryId === catId);
+  },
+  filterBySearch(items, query) {
+    if (!query) return items;
+    const q = query.toLowerCase();
+    return items.filter(i =>
+      i.name.toLowerCase().includes(q) ||
+      i.description.toLowerCase().includes(q) ||
+      i.ingredients.some(ing => ing.toLowerCase().includes(q))
+    );
+  }
+};
+
+// =========== ROUTING (Angular Router equivalent) ===========
+let currentView = 'home';
+let currentCategoryFilter = 0;
+let searchQuery = '';
+
+function navigate(view, param = null) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+
+  // Update nav active states
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + (view === 'detail' ? 'menu' : view));
+  if (navEl) navEl.classList.add('active');
+
+  currentView = view;
+  window.scrollTo(0, 0);
+
+  // Route guard: can't checkout with empty cart
+  if (view === 'checkout' && CartService.getCount() === 0) {
+    showSnackbar('Please add items to your cart first', 'warning');
+    navigate('cart');
+    return;
+  }
+
+  if (view === 'menu') renderMenu();
+  else if (view === 'detail' && param) renderDetail(param);
+  else if (view === 'cart') renderCart();
+  else if (view === 'checkout') renderCheckout();
+}
+
+// =========== PIPES (Angular Pipe equivalent) ===========
+// CurrencyPipe
+function formatCurrency(val) {
+  return '$' + val.toFixed(2);
+}
+
+// MenuFilterPipe
+function applyFilters(items, catId, query) {
+  let filtered = catId ? MenuService.getByCategory(catId) : items;
+  return MenuService.filterBySearch(filtered, query);
+}
+
+// RatingPipe
+function renderStars(rating) {
+  const full = Math.floor(rating);
+  const half = rating % 1 >= 0.5;
+  let stars = '';
+  for (let i = 0; i < full; i++) stars += '★';
+  if (half) stars += '½';
+  return stars;
+}
+
+// =========== DIRECTIVES (Angular Directive equivalent) ===========
+// HighlightRecommended: adds gold border to recommended cards
+function getCardHighlightClass(item) {
+  if (item.isRecommended) return 'style="border-color: var(--gold);"';
+  return '';
+}
+
+// DiscountDirective: applies discount styling
+function getDiscountedPrice(item) {
+  if (item.isDiscounted && item.discountPercent > 0) {
+    return item.price * (1 - item.discountPercent / 100);
+  }
+  return item.price;
+}
+
+// =========== RENDER FUNCTIONS ===========
+
+function renderCategoryFilters() {
+  const container = document.getElementById('category-filters');
+  const categories = MenuService.getCategories();
+  let html = `<button class="filter-chip ${currentCategoryFilter === 0 ? 'active' : ''}" onclick="filterCategory(0, this)">
+    <span class="material-icons-round">restaurant_menu</span> All
+  </button>`;
+
+  categories.forEach(cat => {
+    html += `<button class="filter-chip ${currentCategoryFilter === cat.id ? 'active' : ''}" onclick="filterCategory(${cat.id}, this)">
+      ${cat.name}
+    </button>`;
+  });
+
+  html += `<div class="filter-search">
+    <span class="material-icons-round">search</span>
+    <input type="text" placeholder="Search dishes..." value="${searchQuery}" oninput="handleSearch(this.value)">
+  </div>`;
+
+  container.innerHTML = html;
+}
+
+function filterCategory(catId, btn) {
+  currentCategoryFilter = catId;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenuGrid();
+}
+
+function handleSearch(val) {
+  searchQuery = val;
+  renderMenuGrid();
+}
+
+function renderMenu() {
+  renderCategoryFilters();
+  renderMenuGrid();
+}
+
+function renderMenuGrid() {
+  const items = applyFilters(MenuService.getAll(), currentCategoryFilter, searchQuery);
+  const container = document.getElementById('menu-content');
+
+  if (items.length === 0) {
+    container.innerHTML = `<div class="no-items">
+      <span class="material-icons-round">search_off</span>
+      <p>No dishes found. Try a different search or category.</p>
+    </div>`;
+    return;
+  }
+
+  // Group by category
+  const categories = MenuService.getCategories();
+  const grouped = {};
+  items.forEach(item => {
+    if (!grouped[item.categoryId]) grouped[item.categoryId] = [];
+    grouped[item.categoryId].push(item);
+  });
+
+  let html = '';
+  Object.keys(grouped).forEach(catId => {
+    const cat = categories.find(c => c.id == catId);
+    const catItems = grouped[catId];
+
+    html += `<div>
+      <div class="section-title">${cat.name}</div>
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-icon">◆</span>
+      </div>
+      <div class="menu-grid">`;
+
+    catItems.forEach((item, idx) => {
+      const effectivePrice = getDiscountedPrice(item);
+      html += `
+      <div class="menu-card" ${getCardHighlightClass(item)} onclick="navigate('detail', ${item.id})" style="animation-delay:${idx * 0.08}s">
+        <div class="menu-card-img">
+          <img src="${item.image}" alt="${item.name}" loading="lazy">
+          <div class="badge-group">
+            ${item.isRecommended ? '<span class="badge badge-recommended">★ Chef\'s Pick</span>' : ''}
+            ${item.isDiscounted ? `<span class="badge badge-discount">${item.discountPercent}% Off</span>` : ''}
+            ${item.isVegetarian ? '<span class="badge badge-veg">Veg</span>' : ''}
+            ${item.isSpicy ? '<span class="badge badge-spicy">🌶 Spicy</span>' : ''}
+          </div>
+          <div class="card-rating"><span class="material-icons-round">star</span>${item.rating}</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="card-category">${cat.name}</div>
+          <div class="card-name">${item.name}</div>
+          <div class="card-desc">${item.description}</div>
+          <div class="card-footer">
+            <div class="card-price">
+              <span class="price-current">${formatCurrency(effectivePrice)}</span>
+              ${item.isDiscounted ? `<span class="price-original">${formatCurrency(item.price)}</span>` : ''}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+              <div class="card-meta">
+                <span><span class="material-icons-round">schedule</span>${item.prepTime}m</span>
+                <span><span class="material-icons-round">local_fire_department</span>${item.calories}</span>
+              </div>
+              <button class="btn-add-cart" onclick="event.stopPropagation(); quickAdd(${item.id})">
+                <span class="material-icons-round">add</span> Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    html += `</div></div><br>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function quickAdd(id) {
+  const item = MenuService.getById(id);
+  CartService.addItem(item);
+  showSnackbar(`${item.name} added to cart`);
+}
+
+function renderDetail(id) {
+  const item = MenuService.getById(id);
+  if (!item) { navigate('menu'); return; }
+
+  const cat = MenuService.getCategories().find(c => c.id === item.categoryId);
+  const effectivePrice = getDiscountedPrice(item);
+
+  const html = `
+  <button class="detail-back-btn" onclick="navigate('menu')">
+    <span class="material-icons-round">arrow_back</span> Back to Menu
+  </button>
+  <div class="detail-hero">
+    <img src="${item.image}" alt="${item.name}">
+    <div class="detail-hero-overlay">
+      <div class="detail-hero-content">
+        <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">${cat.name}</div>
+        <h1>${item.name}</h1>
+        <div class="detail-price">
+          ${formatCurrency(effectivePrice)}
+          ${item.isDiscounted ? `<span style="font-size:18px;opacity:0.5;text-decoration:line-through;margin-left:12px;font-family:'Jost',sans-serif;font-weight:300;">${formatCurrency(item.price)}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-body">
+    <div>
+      <div class="detail-tags">
+        ${item.isRecommended ? '<span class="badge badge-recommended" style="padding:6px 14px;">★ Chef\'s Recommendation</span>' : ''}
+        ${item.isDiscounted ? `<span class="badge badge-discount" style="padding:6px 14px;">${item.discountPercent}% Discount</span>` : ''}
+        ${item.isVegetarian ? '<span class="badge badge-veg" style="padding:6px 14px;">🌿 Vegetarian</span>' : ''}
+        ${item.isSpicy ? '<span class="badge badge-spicy" style="padding:6px 14px;">🌶 Spicy</span>' : ''}
+        <span style="padding:6px 14px;background:var(--parchment);font-size:10px;letter-spacing:1px;">
+          ★ ${item.rating} Rating
+        </span>
+      </div>
+
+      <p class="detail-description">"${item.description}"</p>
+
+      <div class="detail-section-title">Ingredients</div>
+      <div class="ingredients-list">
+        ${item.ingredients.map(ing => `<span class="ingredient-tag">${ing}</span>`).join('')}
+      </div>
+
+      <div class="detail-stats">
+        <div class="stat-card">
+          <div class="stat-value">${item.prepTime}<span style="font-size:16px;font-family:'Jost'"> min</span></div>
+          <div class="stat-label">Prep Time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">${item.calories}<span style="font-size:16px;font-family:'Jost'"> cal</span></div>
+          <div class="stat-label">Calories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="font-size:20px;color:var(--gold);">${renderStars(item.rating)}</div>
+          <div class="stat-label">Rating ${item.rating}/5</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--gold);font-size:20px;">${cat.name}</div>
+          <div class="stat-label">Category</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-panel">
+      <div class="order-panel-title">Add to Your Order</div>
+
+      <div style="margin-bottom:12px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);">Quantity</div>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeDetailQty(-1)">−</button>
+        <div class="qty-display" id="detail-qty">1</div>
+        <button class="qty-btn" onclick="changeDetailQty(1)">+</button>
+      </div>
+
+      <div style="margin-bottom:12px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);">Special Instructions</div>
+      <textarea class="special-instructions" id="detail-instructions" placeholder="Any dietary requirements or preferences?"></textarea>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border);">
+        <span style="color:var(--text-muted);font-size:13px;">Total</span>
+        <span id="detail-total" style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);font-weight:600;">${formatCurrency(effectivePrice)}</span>
+      </div>
+
+      <button class="add-to-cart-btn" onclick="addDetailToCart(${item.id})">
+        <span class="material-icons-round">add_shopping_cart</span>
+        Add to Cart
+      </button>
+    </div>
+  </div>`;
+
+  document.getElementById('detail-content').innerHTML = html;
+  window._detailItem = item;
+  window._detailQty = 1;
+}
+
+let _detailQty = 1;
+
+function changeDetailQty(delta) {
+  _detailQty = Math.max(1, _detailQty + delta);
+  document.getElementById('detail-qty').textContent = _detailQty;
+  const item = window._detailItem;
+  const price = getDiscountedPrice(item);
+  document.getElementById('detail-total').textContent = formatCurrency(price * _detailQty);
+}
+
+function addDetailToCart(id) {
+  const item = MenuService.getById(id);
+  const instructions = document.getElementById('detail-instructions').value;
+  CartService.addItem(item, _detailQty, instructions);
+  showSnackbar(`${item.name} × ${_detailQty} added to cart`);
+  _detailQty = 1;
+}
+
+function renderCart() {
+  const container = document.getElementById('cart-content');
+
+  if (CartService.items.length === 0) {
+    container.innerHTML = `
+      <div class="empty-cart">
+        <span class="material-icons-round empty-cart-icon">shopping_bag</span>
+        <h3>Your cart is empty</h3>
+        <p>Add some delicious dishes from our menu to get started.</p>
+        <button class="btn-primary" onclick="navigate('menu')">Browse Menu</button>
+      </div>`;
+    return;
+  }
+
+  const subtotal = CartService.getSubtotal();
+  const tax = CartService.getTax();
+  const delivery = CartService.getDeliveryFee();
+  const total = CartService.getTotal();
+  const count = CartService.getCount();
+
+  let itemsHtml = CartService.items.map(ci => {
+    const ep = getDiscountedPrice(ci.menuItem);
+    return `
+    <div class="cart-item" id="cart-item-${ci.menuItem.id}">
+      <img class="cart-item-img" src="${ci.menuItem.image}" alt="${ci.menuItem.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${ci.menuItem.name}</div>
+        ${ci.specialInstructions ? `<div class="cart-item-note">"${ci.specialInstructions}"</div>` : ''}
+        <div class="cart-item-controls">
+          <button class="mini-qty-btn" onclick="updateCartQty(${ci.menuItem.id}, -1)">−</button>
+          <span class="mini-qty">${ci.quantity}</span>
+          <button class="mini-qty-btn" onclick="updateCartQty(${ci.menuItem.id}, 1)">+</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <div class="cart-item-price">${formatCurrency(ep * ci.quantity)}</div>
+        <div style="font-size:11px;color:var(--text-muted);">${formatCurrency(ep)} each</div>
+        <button class="remove-btn" onclick="removeFromCart(${ci.menuItem.id})">
+          <span class="material-icons-round">delete_outline</span>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="cart-items-section">
+      <h2>
+        Your Order
+        <span class="cart-count-badge">${count}</span>
+      </h2>
+      ${itemsHtml}
+      <div style="margin-top:24px;">
+        <button class="btn-outline" onclick="navigate('menu')" style="border-color:var(--border);color:var(--charcoal-light);padding:10px 24px;font-size:12px;">
+          ← Continue Shopping
+        </button>
+      </div>
+    </div>
+
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <div class="summary-line"><span>Subtotal</span><span>${formatCurrency(subtotal)}</span></div>
+      <div class="summary-line"><span>Tax (8%)</span><span>${formatCurrency(tax)}</span></div>
+      <div class="summary-line"><span>Delivery</span><span>${formatCurrency(delivery)}</span></div>
+      <div class="summary-line total">
+        <span>Total</span>
+        <span class="summary-total-amount">${formatCurrency(total)}</span>
+      </div>
+      <button class="checkout-btn" onclick="navigate('checkout')">
+        <span class="material-icons-round">lock</span>
+        Proceed to Checkout
+      </button>
+      <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--text-muted);display:flex;align-items:center;justify-content:center;gap:6px;">
+        <span class="material-icons-round" style="font-size:14px;">verified_user</span>
+        Secure checkout · SSL encrypted
+      </div>
+    </div>`;
+}
+
+function updateCartQty(id, delta) {
+  const item = CartService.items.find(i => i.menuItem.id === id);
+  if (item) CartService.updateQty(id, item.quantity + delta);
+}
+
+function removeFromCart(id) {
+  CartService.removeItem(id);
+  showSnackbar('Item removed from cart');
+}
+
+// =========== CHECKOUT (Reactive Forms equivalent) ===========
+let formErrors = {};
+let selectedPayment = 'CREDIT_CARD';
+
+function renderCheckout() {
+  const total = CartService.getTotal();
+  const subtotal = CartService.getSubtotal();
+
+  const html = `
+    <div>
+      <div class="page-header" style="padding: 40px;margin-bottom:32px;">
+        <p class="page-header-label" style="color:var(--gold)">Final Step</p>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--cream);font-weight:300;">
+          Complete Your <em style="color:var(--gold);font-style:italic;">Order</em>
+        </h1>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">
+          <span class="step-num">1</span> Personal Information
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name *</label>
+            <input class="form-input" id="f-firstName" type="text" placeholder="Jean-Pierre" oninput="validateField('firstName', this.value)">
+            <div class="form-error" id="err-firstName">First name is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name *</label>
+            <input class="form-input" id="f-lastName" type="text" placeholder="Dupont" oninput="validateField('lastName', this.value)">
+            <div class="form-error" id="err-lastName">Last name is required</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input class="form-input" id="f-email" type="email" placeholder="jean@example.com" oninput="validateField('email', this.value)">
+            <div class="form-error" id="err-email">Valid email address is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number *</label>
+            <input class="form-input" id="f-phone" type="tel" placeholder="+1 (555) 000-0000" oninput="validateField('phone', this.value)">
+            <div class="form-error" id="err-phone">Phone number is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">
+          <span class="step-num">2</span> Delivery Address
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label class="form-label">Street Address *</label>
+            <input class="form-input" id="f-street" type="text" placeholder="123 Rue de la Paix" oninput="validateField('street', this.value)">
+            <div class="form-error" id="err-street">Street address is required</div>
+          </div>
+        </div>
+        <div class="form-row triple">
+          <div class="form-group">
+            <label class="form-label">City *</label>
+            <input class="form-input" id="f-city" type="text" placeholder="Paris" oninput="validateField('city', this.value)">
+            <div class="form-error" id="err-city">City is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">State *</label>
+            <input class="form-input" id="f-state" type="text" placeholder="Île-de-France" oninput="validateField('state', this.value)">
+            <div class="form-error" id="err-state">State is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ZIP Code *</label>
+            <input class="form-input" id="f-zip" type="text" placeholder="75001" oninput="validateField('zip', this.value)">
+            <div class="form-error" id="err-zip">ZIP code is required</div>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label class="form-label">Special Notes</label>
+            <input class="form-input" id="f-notes" type="text" placeholder="Gate code, floor number, allergies...">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">
+          <span class="step-num">3</span> Payment Method
+        </div>
+        <div class="payment-options">
+          <div class="payment-option selected" id="pay-CREDIT_CARD" onclick="selectPayment('CREDIT_CARD')">
+            <span class="material-icons-round">credit_card</span> Credit Card
+          </div>
+          <div class="payment-option" id="pay-DEBIT_CARD" onclick="selectPayment('DEBIT_CARD')">
+            <span class="material-icons-round">payment</span> Debit Card
+          </div>
+          <div class="payment-option" id="pay-DIGITAL_WALLET" onclick="selectPayment('DIGITAL_WALLET')">
+            <span class="material-icons-round">account_balance_wallet</span> Digital Wallet
+          </div>
+          <div class="payment-option" id="pay-CASH" onclick="selectPayment('CASH')">
+            <span class="material-icons-round">payments</span> Cash on Delivery
+          </div>
+        </div>
+
+        <div id="card-fields" class="form-row">
+          <div class="form-group">
+            <label class="form-label">Card Number *</label>
+            <input class="form-input" id="f-card" type="text" placeholder="•••• •••• •••• ••••" maxlength="19" oninput="formatCard(this)">
+            <div class="form-error" id="err-card">Valid card number is required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cardholder Name *</label>
+            <input class="form-input" id="f-cardname" type="text" placeholder="Jean-Pierre Dupont">
+            <div class="form-error" id="err-cardname">Cardholder name is required</div>
+          </div>
+        </div>
+        <div id="card-fields-2" class="form-row">
+          <div class="form-group">
+            <label class="form-label">Expiry Date *</label>
+            <input class="form-input" id="f-expiry" type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)">
+            <div class="form-error" id="err-expiry">Valid expiry date required</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">CVV *</label>
+            <input class="form-input" id="f-cvv" type="text" placeholder="•••" maxlength="4">
+            <div class="form-error" id="err-cvv">CVV is required</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="place-order-btn" onclick="placeOrder()">
+        <span class="material-icons-round">check_circle</span>
+        Place Order · ${formatCurrency(total)}
+      </button>
+    </div>
+
+    <div class="order-summary" style="position:sticky;top:100px;">
+      <h3>Order Review</h3>
+      ${CartService.items.map(ci => `
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;">
+          <span style="color:var(--parchment);opacity:0.85;">
+            ${ci.menuItem.name}
+            <span style="color:var(--gold);margin-left:6px;">×${ci.quantity}</span>
+          </span>
+          <span style="color:var(--cream);">${formatCurrency(getDiscountedPrice(ci.menuItem) * ci.quantity)}</span>
+        </div>
+      `).join('')}
+      <div class="summary-line" style="margin-top:8px;"><span>Subtotal</span><span>${formatCurrency(subtotal)}</span></div>
+      <div class="summary-line"><span>Tax (8%)</span><span>${formatCurrency(CartService.getTax())}</span></div>
+      <div class="summary-line"><span>Delivery</span><span>${formatCurrency(CartService.getDeliveryFee())}</span></div>
+      <div class="summary-line total">
+        <span>Total</span>
+        <span class="summary-total-amount">${formatCurrency(total)}</span>
+      </div>
+      <button class="btn-outline" onclick="navigate('cart')" style="width:100%;margin-top:16px;justify-content:center;display:flex;padding:12px;font-size:12px;">
+        ← Edit Cart
+      </button>
+    </div>`;
+
+  document.getElementById('checkout-content').innerHTML = html;
+}
+
+function selectPayment(method) {
+  selectedPayment = method;
+  document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+  document.getElementById('pay-' + method).classList.add('selected');
+  const showCard = method === 'CREDIT_CARD' || method === 'DEBIT_CARD';
+  document.getElementById('card-fields').style.display = showCard ? 'grid' : 'none';
+  document.getElementById('card-fields-2').style.display = showCard ? 'grid' : 'none';
+}
+
+function formatCard(input) {
+  let val = input.value.replace(/\D/g, '');
+  val = val.match(/.{1,4}/g)?.join(' ') || val;
+  input.value = val;
+}
+
+function formatExpiry(input) {
+  let val = input.value.replace(/\D/g, '');
+  if (val.length >= 2) val = val.slice(0,2) + ' / ' + val.slice(2);
+  input.value = val;
+}
+
+// Validation (Angular Validators equivalent)
+function validateField(field, value) {
+  const validators = {
+    firstName: v => v.trim().length >= 2,
+    lastName: v => v.trim().length >= 2,
+    email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+    phone: v => v.trim().length >= 7,
+    street: v => v.trim().length >= 5,
+    city: v => v.trim().length >= 2,
+    state: v => v.trim().length >= 2,
+    zip: v => v.trim().length >= 3
+  };
+  const valid = validators[field] ? validators[field](value) : true;
+  const input = document.getElementById('f-' + field);
+  const errEl = document.getElementById('err-' + field);
+  if (input) input.classList.toggle('error', !valid && value.length > 0);
+  if (errEl) errEl.classList.toggle('visible', !valid && value.length > 0);
+  return valid;
+}
+
+function validateForm() {
+  const fields = ['firstName', 'lastName', 'email', 'phone', 'street', 'city', 'state', 'zip'];
+  let valid = true;
+  fields.forEach(f => {
+    const input = document.getElementById('f-' + f);
+    if (input && !validateField(f, input.value)) {
+      const errEl = document.getElementById('err-' + f);
+      if (input) input.classList.add('error');
+      if (errEl) errEl.classList.add('visible');
+      valid = false;
+    }
+  });
+  return valid;
+}
+
+function placeOrder() {
+  if (!validateForm()) {
+    showSnackbar('Please fill in all required fields', 'error');
+    document.querySelector('.form-input.error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Build order object
+  const order = {
+    id: 'ORD-' + Date.now().toString(36).toUpperCase(),
+    customer: {
+      firstName: document.getElementById('f-firstName').value,
+      lastName: document.getElementById('f-lastName').value,
+      email: document.getElementById('f-email').value,
+      phone: document.getElementById('f-phone').value,
+      address: {
+        street: document.getElementById('f-street').value,
+        city: document.getElementById('f-city').value,
+        state: document.getElementById('f-state').value,
+        zipCode: document.getElementById('f-zip').value
+      }
+    },
+    items: [...CartService.items],
+    subtotal: CartService.getSubtotal(),
+    tax: CartService.getTax(),
+    deliveryFee: CartService.getDeliveryFee(),
+    total: CartService.getTotal(),
+    paymentMethod: selectedPayment,
+    status: 'CONFIRMED',
+    createdAt: new Date(),
+    specialNotes: document.getElementById('f-notes')?.value || ''
+  };
+
+  window._lastOrder = order;
+  renderConfirmation(order);
+  CartService.clear();
+  navigate('confirmation');
+}
+
+function renderConfirmation(order) {
+  const estimatedTime = new Date(Date.now() + 45 * 60000);
+  const timeStr = estimatedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  const html = `
+  <div class="confirmation-card">
+    <div class="confirmation-icon">
+      <span class="material-icons-round">check</span>
+    </div>
+    <div class="order-id">Order ${order.id}</div>
+    <h2>Order Confirmed!</h2>
+    <p>Thank you, ${order.customer.firstName}! Your order has been received and is being prepared with the finest care. Estimated delivery by <strong style="color:var(--gold)">${timeStr}</strong>.</p>
+
+    <div class="conf-status-bar">
+      <div class="status-step">
+        <div class="status-dot active"></div>
+        <span class="status-label">Received</span>
+      </div>
+      <div class="status-step">
+        <div class="status-dot"></div>
+        <span class="status-label">Preparing</span>
+      </div>
+      <div class="status-step">
+        <div class="status-dot"></div>
+        <span class="status-label">Ready</span>
+      </div>
+      <div class="status-step">
+        <div class="status-dot"></div>
+        <span class="status-label">Delivered</span>
+      </div>
+    </div>
+
+    <div class="confirmation-details">
+      ${order.items.map(ci => `
+        <div class="conf-detail-row">
+          <span>${ci.menuItem.name} × ${ci.quantity}</span>
+          <span>${formatCurrency(getDiscountedPrice(ci.menuItem) * ci.quantity)}</span>
+        </div>
+      `).join('')}
+      <div class="conf-detail-row">
+        <span>Total Charged</span>
+        <span>${formatCurrency(order.total)}</span>
+      </div>
+    </div>
+
+    <div style="text-align:left;padding:16px;background:rgba(201,168,76,0.08);border:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--parchment);">
+      <div style="margin-bottom:6px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);">Delivery Address</div>
+      ${order.customer.address.street}, ${order.customer.address.city}, ${order.customer.address.state} ${order.customer.address.zipCode}
+    </div>
+
+    <button class="btn-primary" onclick="navigate('menu')" style="margin-right:12px;">
+      Back to Menu
+    </button>
+    <button class="btn-outline" onclick="navigate('home')" style="border-color:rgba(255,255,255,0.2);color:var(--cream);">
+      Return Home
+    </button>
+  </div>`;
+
+  document.getElementById('confirmation-content').innerHTML = html;
+}
+
+// =========== SNACKBAR (MatSnackBar equivalent) ===========
+function showSnackbar(msg, type = 'success') {
+  const sb = document.getElementById('snackbar');
+  const msgEl = document.getElementById('snackbar-msg');
+  msgEl.textContent = msg;
+  sb.style.borderLeftColor = type === 'error' ? 'var(--red-accent)' : type === 'warning' ? '#f39c12' : 'var(--gold)';
+  sb.classList.add('show');
+  clearTimeout(window._sbTimer);
+  window._sbTimer = setTimeout(() => sb.classList.remove('show'), 3500);
+}
+
+// =========== INIT ===========
+document.addEventListener('DOMContentLoaded', () => {
+  renderCategoryFilters();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!-- components/order-form/order-form.component.html -->
+<div class="checkout-container">
+  <div class="checkout-header">
+    <p class="header-label">Final Step</p>
+    <h1>Complete Your <em>Order</em></h1>
+  </div>
+
+  <div class="checkout-layout">
+
+    <!-- FORM COLUMN -->
+    <div class="form-column">
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+
+        <!-- Step 1: Personal Info -->
+        <mat-card class="form-card">
+          <mat-card-header>
+            <div mat-card-avatar class="step-num">1</div>
+            <mat-card-title>Personal Information</mat-card-title>
+          </mat-card-header>
+          <mat-card-content formGroupName="personal">
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" placeholder="Jean-Pierre">
+                <mat-error>{{ getError(personalGroup, 'firstName') }}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" placeholder="Dupont">
+                <mat-error>{{ getError(personalGroup, 'lastName') }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="jean@example.com">
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-error>{{ getError(personalGroup, 'email') }}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput type="tel" formControlName="phone" placeholder="+1 (555) 000-0000">
+                <mat-icon matSuffix>phone</mat-icon>
+                <mat-error>{{ getError(personalGroup, 'phone') }}</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Step 2: Delivery Address -->
+        <mat-card class="form-card">
+          <mat-card-header>
+            <div mat-card-avatar class="step-num">2</div>
+            <mat-card-title>Delivery Address</mat-card-title>
+          </mat-card-header>
+          <mat-card-content formGroupName="address">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Street Address</mat-label>
+              <input matInput formControlName="street" placeholder="123 Rue de la Paix">
+              <mat-icon matSuffix>location_on</mat-icon>
+              <mat-error>{{ getError(addressGroup, 'street') }}</mat-error>
+            </mat-form-field>
+
+            <div class="form-row form-row-three">
+              <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" placeholder="Paris">
+                <mat-error>{{ getError(addressGroup, 'city') }}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>State / Province</mat-label>
+                <input matInput formControlName="state">
+                <mat-error>{{ getError(addressGroup, 'state') }}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>ZIP / Postal Code</mat-label>
+                <input matInput formControlName="zipCode" placeholder="75001">
+                <mat-error>{{ getError(addressGroup, 'zipCode') }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Special Delivery Notes</mat-label>
+              <input matInput formControlName="specialNotes"
+                     placeholder="Gate code, floor number, dietary notes...">
+              <mat-icon matSuffix>notes</mat-icon>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Step 3: Payment -->
+        <mat-card class="form-card">
+          <mat-card-header>
+            <div mat-card-avatar class="step-num">3</div>
+            <mat-card-title>Payment Method</mat-card-title>
+          </mat-card-header>
+          <mat-card-content formGroupName="payment">
+            <mat-radio-group formControlName="method" class="payment-radio-group">
+              <mat-radio-button [value]="PaymentMethod.CREDIT_CARD">
+                <mat-icon>credit_card</mat-icon> Credit Card
+              </mat-radio-button>
+              <mat-radio-button [value]="PaymentMethod.DEBIT_CARD">
+                <mat-icon>payment</mat-icon> Debit Card
+              </mat-radio-button>
+              <mat-radio-button [value]="PaymentMethod.DIGITAL_WALLET">
+                <mat-icon>account_balance_wallet</mat-icon> Digital Wallet
+              </mat-radio-button>
+              <mat-radio-button [value]="PaymentMethod.CASH">
+                <mat-icon>payments</mat-icon> Cash on Delivery
+              </mat-radio-button>
+            </mat-radio-group>
+
+            <!-- Card fields shown conditionally using *ngIf -->
+            <ng-container *ngIf="isCardPayment()">
+              <mat-divider style="margin: 20px 0"></mat-divider>
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Card Number</mat-label>
+                  <input matInput formControlName="cardNumber"
+                         placeholder="•••• •••• •••• ••••" maxlength="19">
+                  <mat-icon matSuffix>credit_card</mat-icon>
+                  <mat-error>Enter a valid 16-digit card number</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Cardholder Name</mat-label>
+                  <input matInput formControlName="cardholderName"
+                         placeholder="Jean-Pierre Dupont">
+                  <mat-error>Cardholder name is required</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Expiry Date</mat-label>
+                  <input matInput formControlName="expiryDate" placeholder="MM / YY" maxlength="7">
+                  <mat-error>Enter valid expiry date</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>CVV</mat-label>
+                  <input matInput type="password" formControlName="cvv"
+                         placeholder="•••" maxlength="4">
+                  <mat-error>CVV is required</mat-error>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" type="submit"
+                class="place-order-btn"
+                [disabled]="isPlacingOrder">
+          <mat-icon *ngIf="!isPlacingOrder">check_circle</mat-icon>
+          <mat-progress-spinner *ngIf="isPlacingOrder"
+            mode="indeterminate" diameter="20" color="accent">
+          </mat-progress-spinner>
+          {{ isPlacingOrder ? 'Placing Order...' : 'Place Order · ' + (total | currency:'USD') }}
+        </button>
+      </form>
+    </div>
+
+    <!-- ORDER SUMMARY SIDEBAR -->
+    <div class="summary-column">
+      <mat-card class="summary-card">
+        <mat-card-header>
+          <mat-card-title>Order Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- Order Items -->
+          <div class="summary-item" *ngFor="let ci of cartItems">
+            <span class="item-name">
+              {{ ci.menuItem.name }}
+              <span class="item-qty">× {{ ci.quantity }}</span>
+            </span>
+            <span class="item-price">
+              {{ (getEffectivePrice(ci) * ci.quantity) | currency:'USD' }}
+            </span>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <!-- Totals -->
+          <div class="summary-line">
+            <span>Subtotal</span><span>{{ subtotal | currency:'USD' }}</span>
+          </div>
+          <div class="summary-line">
+            <span>Tax (8%)</span><span>{{ tax | currency:'USD' }}</span>
+          </div>
+          <div class="summary-line">
+            <span>Delivery</span><span>{{ deliveryFee | currency:'USD' }}</span>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="summary-total">
+            <span>Total</span>
+            <span class="total-amount">{{ total | currency:'USD' }}</span>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button routerLink="/cart" class="edit-cart-btn">
+            <mat-icon>edit</mat-icon> Edit Cart
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<!-- components/cart/cart.component.html -->
+<div class="cart-container">
+  <div class="cart-header">
+    <p class="header-label">Your Selection</p>
+    <h1>Your <em>Cart</em>
+      <span class="cart-badge" *ngIf="!isEmpty">{{ cartItems.length }}</span>
+    </h1>
+  </div>
+
+  <!-- Empty State using *ngIf -->
+  <div class="empty-cart" *ngIf="isEmpty; else cartContent">
+    <mat-icon class="empty-icon">shopping_bag</mat-icon>
+    <h3>Your cart is empty</h3>
+    <p>Explore our menu and add your favourite dishes.</p>
+    <button mat-raised-button color="primary" routerLink="/menu">
+      <mat-icon>restaurant_menu</mat-icon> Browse Menu
+    </button>
+  </div>
+
+  <!-- Cart Content -->
+  <ng-template #cartContent>
+    <div class="cart-layout">
+
+      <!-- Items List -->
+      <div class="items-column">
+        <div class="cart-item"
+             *ngFor="let ci of cartItems; trackBy: trackById">
+          <img [src]="ci.menuItem.image" [alt]="ci.menuItem.name" class="item-img">
+
+          <div class="item-info">
+            <h3 class="item-name">{{ ci.menuItem.name }}</h3>
+            <p class="item-note" *ngIf="ci.specialInstructions">
+              "{{ ci.specialInstructions }}"
+            </p>
+
+            <!-- Quantity Controls -->
+            <div class="qty-controls">
+              <button mat-icon-button (click)="decrement(ci)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="qty-display">{{ ci.quantity }}</span>
+              <button mat-icon-button (click)="increment(ci)">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="item-price-col">
+            <span class="item-total">{{ getItemTotal(ci) | currency:'USD' }}</span>
+            <span class="item-unit-price">{{ getEffectivePrice(ci) | currency:'USD' }} each</span>
+            <button mat-icon-button color="warn" (click)="removeItem(ci)"
+                    matTooltip="Remove item">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Actions Row -->
+        <div class="cart-actions">
+          <button mat-stroked-button routerLink="/menu">
+            <mat-icon>arrow_back</mat-icon> Continue Shopping
+          </button>
+          <button mat-stroked-button color="warn" (click)="clearCart()">
+            <mat-icon>delete_sweep</mat-icon> Clear Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <mat-card class="summary-card">
+        <mat-card-header>
+          <mat-card-title>Order Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>{{ subtotal | currency:'USD' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Tax (8%)</span>
+            <span>{{ tax | currency:'USD' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span>{{ deliveryFee | currency:'USD' }}</span>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="summary-total">
+            <span>Total</span>
+            <span class="total-value">{{ total | currency:'USD' }}</span>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" class="checkout-btn"
+                  (click)="checkout()">
+            <mat-icon>lock</mat-icon>
+            Proceed to Checkout
+          </button>
+          <p class="secure-note">
+            <mat-icon>verified_user</mat-icon>
+            Secure checkout · SSL encrypted
+          </p>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+  </ng-template>
+</div>

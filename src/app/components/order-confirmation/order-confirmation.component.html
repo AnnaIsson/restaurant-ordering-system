@@ -1,0 +1,100 @@
+<!-- components/order-confirmation/order-confirmation.component.html -->
+<div class="confirmation-container" *ngIf="order; else loading">
+  <div class="confirmation-card">
+
+    <!-- Success Icon -->
+    <div class="success-icon">
+      <mat-icon>check</mat-icon>
+    </div>
+
+    <p class="order-id-label">Order {{ order.id }}</p>
+    <h2>Order <em>Confirmed!</em></h2>
+    <p class="subtitle">
+      Thank you, {{ order.customer.firstName }}!
+      Your order is being prepared with the finest care.
+      Estimated delivery by <strong>{{ getEstimatedTime() }}</strong>.
+    </p>
+
+    <!-- Status Progress Bar -->
+    <div class="status-progress">
+      <div class="status-step"
+           *ngFor="let step of statusSteps; let i = index"
+           [class.active]="i <= currentStatusStep">
+        <div class="status-dot"></div>
+        <span class="status-label">{{ step.label }}</span>
+      </div>
+    </div>
+
+    <!-- Order Items using MatTable -->
+    <mat-card class="order-details-card">
+      <mat-card-header>
+        <mat-card-title>Order Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-table [dataSource]="order.items" class="order-table">
+          <ng-container matColumnDef="item">
+            <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              {{ row.menuItem.name }}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="qty">
+            <mat-header-cell *matHeaderCellDef>Qty</mat-header-cell>
+            <mat-cell *matCellDef="let row">× {{ row.quantity }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              {{ getItemTotal(row) | currency:'USD' }}
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="['item','qty','price']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['item','qty','price'];"></mat-row>
+        </mat-table>
+
+        <!-- Totals -->
+        <div class="totals-section">
+          <div class="total-row"><span>Subtotal</span><span>{{ order.subtotal | currency:'USD' }}</span></div>
+          <div class="total-row"><span>Tax</span><span>{{ order.tax | currency:'USD' }}</span></div>
+          <div class="total-row"><span>Delivery</span><span>{{ order.deliveryFee | currency:'USD' }}</span></div>
+          <mat-divider></mat-divider>
+          <div class="total-row grand-total">
+            <span>Total Charged</span>
+            <span class="grand-total-amount">{{ order.total | currency:'USD' }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Delivery Address -->
+    <div class="delivery-info">
+      <p class="info-label">Delivery Address</p>
+      <p>{{ order.customer.address.street }},
+         {{ order.customer.address.city }},
+         {{ order.customer.address.state }}
+         {{ order.customer.address.zipCode }}</p>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="cta-buttons">
+      <button mat-raised-button color="primary" routerLink="/menu">
+        <mat-icon>restaurant_menu</mat-icon> Back to Menu
+      </button>
+      <button mat-stroked-button routerLink="/">
+        <mat-icon>home</mat-icon> Return Home
+      </button>
+    </div>
+
+    <!-- Order timestamp using DatePipe -->
+    <p class="order-time">
+      Order placed on {{ order.createdAt | date:'MMMM d, y · h:mm a' }}
+    </p>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-state">
+    <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+  </div>
+</ng-template>

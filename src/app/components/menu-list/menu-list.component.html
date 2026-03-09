@@ -1,0 +1,155 @@
+<!-- components/menu-list/menu-list.component.html -->
+<div class="menu-list-container">
+
+  <!-- Page Header -->
+  <div class="page-header mat-elevation-z4">
+    <p class="header-label">Crafted with Passion</p>
+    <h1>Our <em>Menu</em></h1>
+  </div>
+
+  <!-- Filter Bar (sticky) -->
+  <div class="filter-bar mat-elevation-z2">
+    <div class="filter-row">
+      <!-- Category chips using MatChips -->
+      <mat-chip-listbox class="category-chips" aria-label="Category filter">
+        <mat-chip-option
+          [selected]="selectedCategoryId === 0"
+          (click)="onCategoryChange(0)">
+          <mat-icon>restaurant_menu</mat-icon> All
+        </mat-chip-option>
+        <mat-chip-option
+          *ngFor="let cat of categories; trackBy: trackById"
+          [selected]="selectedCategoryId === cat.id"
+          (click)="onCategoryChange(cat.id)">
+          {{ cat.name }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+
+      <!-- Search field -->
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search dishes</mat-label>
+        <input matInput
+               [value]="searchQuery"
+               (input)="onSearch($event.target.value)"
+               placeholder="e.g. salmon, chocolate...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    <p>Loading delicious dishes...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="error && !loading">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="menuService.loadMenuData()">
+      Retry
+    </button>
+  </div>
+
+  <!-- Menu Content -->
+  <div class="menu-content" *ngIf="!loading && !error">
+
+    <!-- No results -->
+    <div class="no-results"
+         *ngIf="(menuItems | menuFilter:selectedCategoryId:searchQuery).length === 0">
+      <mat-icon>search_off</mat-icon>
+      <h3>No dishes found</h3>
+      <p>Try adjusting your search or category filter.</p>
+    </div>
+
+    <!-- Category Groups using *ngFor -->
+    <ng-container *ngFor="let category of categories; trackBy: trackById">
+      <ng-container
+        *ngIf="(menuItems | menuFilter:category.id:searchQuery).length > 0
+               && (selectedCategoryId === 0 || selectedCategoryId === category.id)">
+
+        <div class="category-section">
+          <h2 class="category-title">{{ category.name }}</h2>
+          <mat-divider></mat-divider>
+
+          <!-- Menu Items Grid -->
+          <div class="menu-grid">
+            <mat-card
+              *ngFor="let item of (menuItems | menuFilter:category.id:searchQuery); trackBy: trackById"
+              class="menu-card"
+              [appHighlightRecommended]="item"
+              [appDiscountHighlight]="item.isDiscounted"
+              [discountPercent]="item.discountPercent"
+              (click)="viewItem(item)">
+
+              <!-- Card Image -->
+              <div class="card-image-wrapper">
+                <img mat-card-image [src]="item.image" [alt]="item.name" loading="lazy">
+
+                <!-- Badges using *ngIf -->
+                <div class="badge-group">
+                  <span class="badge badge-recommended" *ngIf="item.isRecommended">
+                    ★ Chef's Pick
+                  </span>
+                  <span class="badge badge-discount" *ngIf="item.isDiscounted">
+                    {{ item.discountPercent }}% Off
+                  </span>
+                  <span class="badge badge-veg" *ngIf="item.isVegetarian">
+                    🌿 Veg
+                  </span>
+                  <span class="badge badge-spicy" *ngIf="item.isSpicy">
+                    🌶 Spicy
+                  </span>
+                </div>
+
+                <!-- Rating -->
+                <div class="card-rating">
+                  <mat-icon>star</mat-icon>{{ item.rating }}
+                </div>
+              </div>
+
+              <mat-card-content>
+                <p class="card-category">{{ getCategoryName(item.categoryId) }}</p>
+                <h3 class="card-name">{{ item.name }}</h3>
+                <p class="card-description">{{ item.description }}</p>
+
+                <!-- Price using built-in CurrencyPipe & custom DiscountPricePipe -->
+                <div class="card-footer">
+                  <div class="price-section">
+                    <span class="price-current">
+                      {{ (item | discountPrice) | currency:'USD' }}
+                    </span>
+                    <span class="price-original" *ngIf="item.isDiscounted">
+                      {{ item.price | currency:'USD' }}
+                    </span>
+                  </div>
+
+                  <div class="card-meta">
+                    <span>
+                      <mat-icon>schedule</mat-icon>{{ item.prepTime }}m
+                    </span>
+                    <span>
+                      <mat-icon>local_fire_department</mat-icon>{{ item.calories }}
+                    </span>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-stroked-button (click)="viewItem(item)">
+                  <mat-icon>visibility</mat-icon> Details
+                </button>
+                <button mat-raised-button color="accent"
+                        (click)="addToCart($event, item)"
+                        [matTooltip]="'Add ' + item.name + ' to cart'">
+                  <mat-icon>add_shopping_cart</mat-icon> Add to Cart
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
